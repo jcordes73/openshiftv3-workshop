@@ -28,12 +28,9 @@ below:
 
 image::images/service_catalog2.png[image]
 
-Click on *Databases* tab. Find *MySQL* then *MySQL (Ephemeral)*
-template from the list and click *Select*. You will also notice *MySQL
-(Persistent)* template. But we will address that in a different lab
-exercise.
+Click on *Databases* tab. Find the *MySQL* and click *Select*. 
 
-image::images/mysql_ephemeral_template.png[image]
+image::images/mysql_template.png[image]
 
 You will be taken to the mysql ephemeral creation screen. Click *Next*
 parameters and edit the values to use the following values:
@@ -47,15 +44,9 @@ MySQL root user Password: pricelist
 MySQL Database Name: pricelist
 ....
 
-image::images/mysql_ephemeral_creation.png[image]
+image::images/mysql_creation.png[image]
 
-Click the *Next* button.
-
-Click the checkbox to create the secret
-
-image::images/mysql_secret_binding.png[image]
-
-Click *Create*
+Click the *Create* button.
 
 Click *Continue to project overview*.
 
@@ -66,10 +57,10 @@ image::images/mysql_pod_on_proj_overview.png[image]
 
 Please wait for the Bindings to complete. It may take few minutes.
 
-While we are waiting we can add a lable to the mysql deployment
+While we are waiting we can add a label to the mysql deployment
 Run the following on the command line:
 ****
- oc label dc mysql app=pricelist
+ oc label dc mysql app=pricelist --overwrite
 ****
 
 *Step 3: Add a PHP frontend to talk to this database*
@@ -90,7 +81,7 @@ Select Languages -> PHP -> PHP
 Click *Next*
 
 ****
-Add to Project: consoleproject-UserName (this should be the same project as MySQL Ephemeral)
+Add to Project: consoleproject-UserName (this should be the same project as MySQL)
 Application Name: pricelist
 Git Repository: https://github.com/RedHatWorkshops/php-pricelist
 
@@ -101,7 +92,7 @@ Click onto the link `Advanced Options`
 Go to Deployment Configuration section and enter the
 following environment variables:
 
-image::images/dbtest_deployment_env.png[image]
+image::images/php_deployment_env.png[image]
 
 In the Labels section add the following label if its not there:
 
@@ -111,7 +102,7 @@ In the Labels section add the following label if its not there:
 
 Click *Create* to add this frontend application to talk to the database.
 
-image::images/cakephp_confirm.png[image]
+image::images/php_confirm.png[image]
 
 Click *Continue to product overview*.
 
@@ -169,9 +160,9 @@ Array
 Go ahead and open your application. The URL will be displayed by `oc get route`
 
 ....
-$ oc get route
-NAME        HOST/PORT                                                    PATH      SERVICES    PORT       TERMINATION   WILDCARD
-pricelist   pricelist-consoleproject-Username.apps.workshop.osecloud.com 	                   pricelist   8080-tcp                 None
+oc get route
+NAME        HOST/PORT                                                  PATH      SERVICES    PORT       TERMINATION   WILDCARD
+pricelist   pricelist-consoleproject-developer.192.168.42.123.nip.io             pricelist   8080-tcp                 None
 ....
 
 When you open your application, click on the "Create Record" button and create a record.
